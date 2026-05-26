@@ -1,3 +1,5 @@
+from dotenv import load_dotenv 
+import os 
 import logging
 import smtplib
 from email.mime.text import MIMEText
@@ -5,12 +7,14 @@ from email.mime.multipart import MIMEMultipart
 import pandas as pd
 from sqlalchemy import create_engine
 from urllib.parse import quote_plus
-import os
+
+load_dotenv()
+
 
 
 # PostgreSQL connection
 username = "postgres"
-password = quote_plus("Roseobah@3")
+password = quote_plus(os.getenv("DB_PASSWORD"))
 host = "localhost"
 port = "5432"
 database = "retail_sales_db"
@@ -28,9 +32,11 @@ logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(message)s"
 )
 
-EMAIL_ADDRESS = "your_real_email"
-EMAIL_PASSWORD = "your_real_app_password"
-TO_EMAIL = "your_real_email"
+
+
+EMAIL_ADDRESS = os.getenv("EMAIL_USER")
+EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
+TO_EMAIL = EMAIL_ADDRESS
 
 # send email alert function
 def send_email_alert(subject, body):
